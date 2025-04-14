@@ -26,9 +26,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private array $roles = [];
 
-    /**
-     * @var string The hashed password
-     */
     #[ORM\Column]
     private ?string $password = null;
 
@@ -56,188 +53,64 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $updatedAt = null;
 
+    #[ORM\Column(type: 'boolean', options: ['default' => false])]
+    private bool $isBlocked = false;
+
     #[ORM\OneToMany(mappedBy: 'userId', targetEntity: AjoutEvenement::class)]
     private Collection $ajoutEvenements;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Reservation::class)]
+    private Collection $ajoutEvenement;
 
     public function __construct()
     {
         $this->ajoutEvenements = new ArrayCollection();
+        $this->ajoutEvenement = new ArrayCollection();
     }
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+    public function getId(): ?int { return $this->id; }
+    public function getEmail(): ?string { return $this->email; }
+    public function setEmail(string $email): self { $this->email = $email; return $this; }
 
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
+    public function getUserIdentifier(): string { return (string) $this->email; }
 
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
-    public function getUserIdentifier(): string
-    {
-        return (string) $this->email;
-    }
-
-    /**
-     * @see UserInterface
-     */
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
     }
 
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
+    public function setRoles(array $roles): self { $this->roles = $roles; return $this; }
+    public function getPassword(): string { return $this->password; }
+    public function setPassword(string $password): self { $this->password = $password; return $this; }
 
-        return $this;
-    }
+    public function eraseCredentials() {}
 
-    /**
-     * @see PasswordAuthenticatedUserInterface
-     */
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
+    public function getNom(): ?string { return $this->nom; }
+    public function setNom(string $nom): self { $this->nom = $nom; return $this; }
+    public function getPrenom(): ?string { return $this->prenom; }
+    public function setPrenom(string $prenom): self { $this->prenom = $prenom; return $this; }
+    public function getTelephone(): ?string { return $this->telephone; }
+    public function setTelephone(string $telephone): self { $this->telephone = $telephone; return $this; }
+    public function getAdresse(): ?string { return $this->adresse; }
+    public function setAdresse(string $adresse): self { $this->adresse = $adresse; return $this; }
+    public function getVille(): ?string { return $this->ville; }
+    public function setVille(string $ville): self { $this->ville = $ville; return $this; }
+    public function getCodePostal(): ?string { return $this->codePostal; }
+    public function setCodePostal(string $codePostal): self { $this->codePostal = $codePostal; return $this; }
 
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
+    public function getCreatedAt(): ?\DateTimeInterface { return $this->createdAt; }
+    public function setCreatedAt(\DateTimeInterface $createdAt): self { $this->createdAt = $createdAt; return $this; }
 
-        return $this;
-    }
+    public function getUpdatedAt(): ?\DateTimeInterface { return $this->updatedAt; }
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self { $this->updatedAt = $updatedAt; return $this; }
 
-    /**
-     * @see UserInterface
-     */
-    public function eraseCredentials()
-    {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
-    }
+    public function isBlocked(): bool { return $this->isBlocked; }
+    public function setIsBlocked(bool $isBlocked): self { $this->isBlocked = $isBlocked; return $this; }
 
-    public function getNom(): ?string
-    {
-        return $this->nom;
-    }
-
-    public function setNom(string $nom): self
-    {
-        $this->nom = $nom;
-
-        return $this;
-    }
-
-    public function getPrenom(): ?string
-    {
-        return $this->prenom;
-    }
-
-    public function setPrenom(string $prenom): self
-    {
-        $this->prenom = $prenom;
-
-        return $this;
-    }
-
-    public function getTelephone(): ?string
-    {
-        return $this->telephone;
-    }
-
-    public function setTelephone(string $telephone): self
-    {
-        $this->telephone = $telephone;
-
-        return $this;
-    }
-
-    public function getAdresse(): ?string
-    {
-        return $this->adresse;
-    }
-
-    public function setAdresse(string $adresse): self
-    {
-        $this->adresse = $adresse;
-
-        return $this;
-    }
-
-    public function getVille(): ?string
-    {
-        return $this->ville;
-    }
-
-    public function setVille(string $ville): self
-    {
-        $this->ville = $ville;
-
-        return $this;
-    }
-
-    public function getCodePostal(): ?string
-    {
-        return $this->codePostal;
-    }
-
-    public function setCodePostal(string $codePostal): self
-    {
-        $this->codePostal = $codePostal;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, AjoutEvenement>
-     */
-    public function getAjoutEvenements(): Collection
-    {
-        return $this->ajoutEvenements;
-    }
-
+    public function getAjoutEvenements(): Collection { return $this->ajoutEvenements; }
     public function addAjoutEvenement(AjoutEvenement $ajoutEvenement): self
     {
         if (!$this->ajoutEvenements->contains($ajoutEvenement)) {
@@ -251,7 +124,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeAjoutEvenement(AjoutEvenement $ajoutEvenement): self
     {
         if ($this->ajoutEvenements->removeElement($ajoutEvenement)) {
-            // set the owning side to null (unless already changed)
             if ($ajoutEvenement->getUserId() === $this) {
                 $ajoutEvenement->setUserId(null);
             }
@@ -259,4 +131,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function getAjoutEvenement(): Collection { return $this->ajoutEvenement; }
 }

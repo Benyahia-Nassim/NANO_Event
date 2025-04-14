@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réservations - Back Office{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">📋 Liste des Réservations</h2>
+
+    <table class="table table-hover table-bordered table-striped shadow-sm">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#ID</th>
+                <th scope="col">Utilisateur</th>
+                <th scope="col">Événement</th>
+                <th scope="col">Date de réservation</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reservation in reservations %}
+                <tr>
+                    <td>{{ reservation.id }}</td>
+                    <td>{{ reservation.user.email }}</td>
+                    <td>{{ reservation.ajoutEvenement.titre }}</td>
+                    <td>
+                        {% if reservation.createdAt is defined %}
+                            {{ reservation.createdAt|date('d/m/Y H:i') }}
+                        {% else %}
+                            <span class="text-muted">Non définie</span>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4" class="text-center text-muted">Aucune réservation enregistrée.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="mt-4 text-center">
+        <a href="{{ path('dashboard') }}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left"></i> Retour au Dashboard
+        </a>
+    </div>
+</div>
+{% endblock %}

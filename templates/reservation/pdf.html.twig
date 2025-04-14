@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 40px; }
+        .qr { margin: 30px 0; }
+        h1 { color: #333; }
+        .info { font-size: 14px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>🎫 Billet de réservation</h1>
+    <p><strong>Nom :</strong> {{ userName }}</p>
+    <p><strong>Événement :</strong> {{ eventName }}</p>
+
+    <div class="qr">
+        <img src="{{ qrCode }}" alt="QR Code">
+    </div>
+
+    <div class="info">
+        Merci d'imprimer ce billet ou de présenter le QR Code à l’entrée.<br>
+        Ce billet est strictement personnel et valable pour une seule entrée.
+    </div>
+</body>
+</html>

@@ -1,46 +1,54 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand ms-5" href="{{path('app_home')}}"><img src="{{asset('assets/images/logo2.png')}}" alt="" style='height: 3vh; width: 10vw;'></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand ms-5" href="{{path('app_home')}}">
+      <img src="{{asset('assets/images/logo2.png')}}" alt="Logo" style='height: 3vh; width: 10vw;'>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+    
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         <li class="nav-item me-3">
-          <a class="nav-link" aria-current="page" href="{{path('app_home')}}">Home</a>
+          <a class="nav-link" aria-current="page" href="{{ path('app_home') }}">Home</a>
         </li>
 
-         {% if app.user %}
-        <li class="nav-item me-3">
-          <a class="nav-link" href="{{path('app_ajout_evenement_index')}}">Créer un événement</a>
-        </li>
+        {% if app.user %}
+          <li class="nav-item me-3">
+            <a class="nav-link" href="{{ path('app_ajout_evenement_index') }}">Créer un événement</a>
+          </li>
         {% else %}
           <li class="nav-item me-3">
-          <a class="nav-link" href="{{path('app_login')}}">Créer un événement</a>
-        </li>
+            <a class="nav-link" href="{{ path('app_login') }}">Créer un événement</a>
+          </li>
         {% endif %}
 
         {% if app.user %}
-        <li class="nav-item me-3 dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            {{app.user.email}}
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="{{path('app_profil')}}">Profil</a></li>
-            <li><a class="dropdown-item" href="{{path('app_ajout_evenement_index')}}">Gérer mes évenements</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="{{path('app_logout')}}">Déconnexion</a></li>
-          </ul>
-        </li>
+          <li class="nav-item me-3 dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              {{ app.user.email }}
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="{{ path('app_profil') }}">Profil</a></li>
+              <li><a class="dropdown-item" href="{{ path('app_ajout_evenement_index') }}">Gérer mes événements</a></li>
+
+              {% if is_granted('ROLE_ADMIN') %}
+                <li><a class="dropdown-item text-warning fw-bold" href="{{ path('dashboard') }}">🔧 Back Office</a></li>
+              {% endif %}
+
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="{{ path('app_logout') }}">Déconnexion</a></li>
+            </ul>
+          </li>
         {% endif %}
 
-        {% if app.user == false %}
-        <li class="nav-item me-5">
-          <a class="nav-link " href="{{path('app_login')}}">Connexion</a>
-        </li>
+        {% if not app.user %}
+          <li class="nav-item me-5">
+            <a class="nav-link" href="{{ path('app_login') }}">Connexion</a>
+          </li>
         {% endif %}
-        
       </ul>
     </div>
   </div>

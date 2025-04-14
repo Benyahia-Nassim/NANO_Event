@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Confirmation de Réservation{% endblock %}
+
+{% block body %}
+<div class="container text-center mt-5">
+    <h1 class="mb-4 text-success">✅ Réservation Confirmée</h1>
+
+    <p class="mb-3">Merci <strong>{{ app.user.prenom }}</strong> pour votre réservation à l'événement <strong>{{ reservation.ajoutEvenement.titre }}</strong>. <br> Un <strong>mail de confiramtion</strong> vous a été envoyé.</p>
+
+    <div class="card shadow p-4 mx-auto" style="max-width: 400px;">
+        <h5 class="mb-3 text-primary">Voici votre QR Code</h5>
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=SP_EVENT_{{ reservation.id }}" alt="QR Code">
+        <hr>
+        <p class="mt-2">Ce code vous sera demandé à l'entrée.</p>
+
+        <a href="{{ path('qr_code_download_pdf', {id: reservation.id}) }}" class="btn btn-outline-dark mt-3">
+            <i class="fa fa-download me-1"></i> Télécharger le billet PDF
+        </a>
+    </div>
+
+    <div class="mt-4">
+        <a href="{{ path('app_home') }}" class="btn btn-secondary">Retour à l'accueil</a>
+    </div>
+</div>
+{% endblock %}

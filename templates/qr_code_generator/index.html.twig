@@ -19,6 +19,8 @@ b, h5{
                         <p><b>Réference:</b> {{ app.user.id * num}}{{ app.user.nom}}-{{app.user.id * num2}}</p>
 						<p class="card-text"> </p>
 						<p><b>Un mail de confirmation a été envoyé a l'adresse : </b>{{app.user.email}}</p>
+						<a href="{{ path('qr_code_download_pdf', {id: reservation.id}) }}" class="btn btn-success mt-3">Télécharger en PDF</a>
+
 					</div>
 				</div>
 			</div>

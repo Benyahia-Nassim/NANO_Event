@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des événements{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h2>Liste des événements</h2>
+
+    <table class="table table-striped mt-4">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Titre</th>
+                <th>Date</th>
+                <th>Ville</th>
+                <th>Organisateur</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for evenement in evenements %}
+            <tr>
+                <td>{{ evenement.id }}</td>
+                <td>{{ evenement.titre }}</td>
+                <td>
+                    {{ evenement.date ?? '-' }}
+                </td>
+                <td>{{ evenement.ville }}</td>
+                <td>{{ evenement.userId.email }}</td>
+                <td>
+                    <a href="{{ path('admin_evenement_supprimer', { id: evenement.id }) }}"
+                       class="btn btn-sm btn-danger"
+                       onclick="return confirm('Confirmer la suppression ?');">
+                        Supprimer
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des utilisateurs{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h2>Liste des utilisateurs</h2>
+
+        <table class="table table-bordered table-striped mt-4">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Email</th>
+                    <th>Rôle</th>
+                    <th>Statut</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.nom }}</td>
+                        <td>{{ user.prenom }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.roles|join(', ') }}</td>
+                        <td>
+                            {% if 'ROLE_BLOQUE' in user.roles %}
+                                <span class="badge text-bg-danger">Bloqué</span>
+                            {% else %}
+                                <span class="badge text-bg-success">Actif</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ path('admin_utilisateur_bloquer', { id: user.id }) }}" class="btn btn-sm btn-warning">
+                                {% if 'ROLE_BLOQUE' in user.roles %}
+                                    Débloquer
+                                {% else %}
+                                    Bloquer
+                                {% endif %}
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

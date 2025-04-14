@@ -14,10 +14,10 @@
 						<p><b> {{events.prix}}€</b></p>
 
                         {% if app.user %}
-						<a href="{{path('app_qr_code_generator')}}" class="btn btn-primary">Obtenir les billets</a>
-                        {% else %}
-						<a href="{{path('app_login')}}" class="btn btn-primary w-25">Obtenir les billets</a>
-                        {% endif %}
+    						<a href="{{ path('reservation_create', { id: events.id }) }}" class="btn btn-success">Réserver maintenant</a>
+						{% else %}
+   							 <a href="{{ path('app_login') }}" class="btn btn-primary w-25">Se connecter pour réserver</a>
+						{% endif %}
 
 					</div>
 				</div>

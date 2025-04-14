@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Paiement de la réservation{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <h1 class="mb-4">Résumé de votre réservation</h1>
+
+            <div class="card shadow-lg">
+                <div class="card-body">
+                    <h5 class="card-title">{{ reservation.ajoutEvenement.titre }}</h5>
+                    <p class="card-text">
+                        <strong>Date :</strong> {{ reservation.ajoutEvenement.date }}<br>
+                        <strong>Ville :</strong> {{ reservation.ajoutEvenement.ville }}<br>
+                        <strong>Prix :</strong> {{ reservation.ajoutEvenement.prix }} €
+                    </p>
+
+                    <div class="my-4">
+                        <a href="{{ path('reservation_valider_paiement', { id: reservation.id }) }}" class="btn btn-success btn-lg">
+                            Valider le Paiement
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <a href="{{ path('app_home') }}" class="btn btn-outline-secondary mt-3">Retour à l'accueil</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

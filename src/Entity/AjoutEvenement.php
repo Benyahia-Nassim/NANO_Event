@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AjoutEvenementRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -38,6 +40,14 @@ class AjoutEvenement
     #[ORM\ManyToOne(inversedBy: 'ajoutEvenements')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $userId = null;
+
+    #[ORM\OneToMany(mappedBy: 'ajoutEvenement', targetEntity: Reservation::class)]
+    private Collection $reservations;
+
+    public function __construct()
+    {
+        $this->reservations = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -139,4 +149,100 @@ class AjoutEvenement
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Reservation>
+     */
+    public function getReservations(): Collection
+    {
+        return $this->reservations;
+    }
+
+    public function addReservation(Reservation $reservation): static
+    {
+        if (!$this->reservations->contains($reservation)) {
+            $this->reservations->add($reservation);
+            $reservation->setAjoutEvenement($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReservation(Reservation $reservation): static
+    {
+        if ($this->reservations->removeElement($reservation)) {
+            // set the owning side to null (unless already changed)
+            if ($reservation->getAjoutEvenement() === $this) {
+                $reservation->setAjoutEvenement(null);
+            }
+        }
+
+        return $this;
+    }
+} 
+
+
+/*
+namespace App\DataFixtures;
+
+use App\Entity\User;
+use App\Entity\AjoutEvenement;
+use Doctrine\Persistence\ObjectManager;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+
+class AppFixtures extends Fixture
+{
+    public function load(ObjectManager $manager): void
+    {
+        // Création d'un utilisateur admin
+        $adminUser = new User();
+        $adminUser->setEmail('admin@gmail.com');
+        $adminUser->setPassword(password_hash('123456', PASSWORD_DEFAULT));
+        $adminUser->setNom('Boss');
+        $adminUser->setPrenom('Patron');
+        $adminUser->setAdresse('25 rue de janeiro');
+        $adminUser->setVille('Rio');
+        $adminUser->setCodepostal('99');
+        $adminUser->setTelephone('0712345678');
+        $adminUser->setCreatedAt(new \DateTime('now'));
+        $adminUser->setRoles(['ROLE_ADMIN']);
+        $manager->persist($adminUser);
+
+        // Ajout de quelques événements fictifs
+        $events = [
+            [
+                'titre' => 'Concert Live à Paris',
+                'image' => 'concert.jpg',
+                'description' => 'Un concert incroyable au cœur de Paris.',
+                'prix' => 25.00,
+                'ville' => 'Paris',
+                'date' => '2025-05-15',
+            ],
+            [
+                'titre' => 'Festival de musique urbaine',
+                'image' => 'festival.jpg',
+                'description' => 'Un festival rassemblant les meilleurs artistes urbains.',
+                'prix' => 40.00,
+                'ville' => 'Marseille',
+                'date' => '2025-06-20',
+            ],
+        ];
+
+        foreach ($events as $data) {
+            $event = new AjoutEvenement();
+            $event->setTitre($data['titre']);
+            $event->setImage($data['image']);
+            $event->setDescription($data['description']);
+            $event->setPrix($data['prix']);
+            $event->setVille($data['ville']);
+            $event->setDate($data['date']);
+            $event->setCreatedAt(new \DateTime());
+            $event->setUserId($adminUser); // lien vers l'utilisateur
+            $manager->persist($event);
+        }
+
+        $manager->flush();
+    }
 }
+ 
+*/
