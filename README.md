@@ -1,7 +1,7 @@
-# Projet Symfony : SP_EVENT
+# Projet Symfony : NANO_EVENT
 
 ## 🎯 Objectif du projet
-SP_EVENT est une plateforme de gestion d'événements avec système de réservation, QR code, back-office administrateur et tableau de bord.
+NANO_EVENT est une plateforme de gestion d'événements avec système de réservation, QR code, back-office administrateur et tableau de bord.
 Ce projet Symfony est conçu comme démonstration technique complète (auth, PDF, admin, QR code...)
 
 ## ✅ Fonctionnalités terminées
@@ -25,7 +25,7 @@ Ce projet Symfony est conçu comme démonstration technique complète (auth, PDF
 ### 📄 PDF & QR Code
 - QR code généré à la réservation (Endroid)
 - Dompdf intégré pour PDF personnalisé
-- Affiche : QR, infos utilisateur, titre de l’événement, image de fond, logo SP_EVENT
+- Affiche : QR, infos utilisateur, titre de l’événement, image de fond, logo NANO_EVENT
 
 ### 📁 Environnement
 - Projet fonctionnel en local sous Symfony CLI + PHP + SQLite
@@ -69,7 +69,7 @@ Projet développé dans une logique d'apprentissage productif. Toute PR / améli
 ---
 
 ✅ Projet validé et présentable !
-📦 Prêt pour démonstration ou portfolio.
+📦 Prêt pour démonstration.
 
 ---
 
